@@ -1,0 +1,28 @@
+{
+  "name": "weather-journal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dreamGenerator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prajwal-747/weatherJournal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Prajwal-747/weatherJournal/issues"
+  },
+  "homepage": "https://github.com/Prajwal-747/weatherJournal#readme",
+  "dependencies": {
+    "axios": "^1.16.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}

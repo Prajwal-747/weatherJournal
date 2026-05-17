@@ -3,12 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather Journal</title>
+    <title>Dream Weather Journal</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <p>Hello, World!</p>
-    <p id="dream">Loading dream...</p>
+    <div class="book">
+      <div class="page left-page">
+        <h2>Weather Notes</h2>
+        <div id="weather">Loading weather data...</div>
+      </div>
+      <div class="spin"></div>
+      <div class="page right-page">
+        <h1>Dream Journal</h1>
+        <div id="dream">Loading dream...</div>
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>

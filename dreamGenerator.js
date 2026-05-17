@@ -49,11 +49,11 @@ Do not make it scary unless storms are extreme.`;
 
     headers: {
       Authorization: `Bearer ${process.env.HACKCLUB_API_KEY}`,
-      "Content-Type": "application/json",
+      "Contente-Type": "application/json",
     },
 
     body: JSON.stringify({
-      model: "qwen/qwen3-32b",
+      model: "~anthropic/claude-sonnet-latest",
       input: [
         {
           type: "message",

@@ -1,4 +1,7 @@
-async function generateDream(weatherInfo) {
+async function generateDream(
+  weatherInfo,
+  interpretation
+) {
   console.log("Request Received");
   const prompt = `Current Weather Conditions:
     City: ${weatherInfo.city}, ${weatherInfo.region}, ${weatherInfo.country}
@@ -22,6 +25,43 @@ async function generateDream(weatherInfo) {
     Moonset: ${weatherInfo.moonset}
     Moon Phase: ${weatherInfo.moonphase}
 
+    Interpretation:
+
+    Mood:
+    ${interpretation.mood.join(", ")}
+
+    Atmosphere:
+    ${interpretation.atmosphere.join(", ")}
+
+    Imagery:
+    ${interpretation.imagery.join(", ")}
+
+    Symbols:
+    ${interpretation.symbols.join(", ")}
+
+    Palette:
+    ${interpretation.palette.join(", ")}
+
+    Sounds:
+    ${interpretation.sounds.join(", ")}
+
+    Textures:
+    ${interpretation.textures.join(", ")}
+
+    Emotions:
+    ${interpretation.emotions.join(", ")}
+
+    Pace: 
+    ${interpretation.pace.join(", ")}
+
+    Use the interpretation section as creative inspiration.
+
+    Transform the imagery, symbols, sounds, textures, emotions, atmosphere, and palette
+    into a dream narrative.
+
+    Do not list them directly.
+
+    weave them naturally into the dream.
     
     Write a short surreal poetic dream narrative inspired by this weather.
     Guidelines:
@@ -49,7 +89,7 @@ Do not make it scary unless storms are extreme.`;
 
     headers: {
       Authorization: `Bearer ${process.env.HACKCLUB_API_KEY}`,
-      "Contente-Type": "application/json",
+      "Content-Type": "application/json",
     },
 
     body: JSON.stringify({

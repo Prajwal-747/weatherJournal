@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import getWeather from "./weather.js";
 import generateDream from "./dreamGenerator.js";
+import interpretWeather from "./weatherInterpreter.js";
 
 dotenv.config();
 
@@ -15,7 +16,9 @@ app.get("/api/dream", async (req, res) => {
   const { lat, long } = req.query;
   console.log("Received request for dream with lat:", lat, "and long:", long);
   const weather = await getWeather(lat, long);
-  const dream = await generateDream(weather);
+  const interpretedWeather = interpretWeather(weather);
+  console.log("Interpreted weather:", interpretedWeather);
+  const dream = await generateDream(weather, interpretedWeather);
   res.json({ dream: dream });
 });
 

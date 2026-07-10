@@ -5,17 +5,11 @@ async function loadDream() {
       const long = position.coords.longitude;
       console.log("Got geolocation:", lat, long);
 
-      const response = await fetch(`/api/dream?lat=${lat}&long=${long}`);
-      const data = await response.json();
-
       const weatherResponse = await fetch(
         `/api/weather?lat=${lat}&long=${long}`,
       );
       const weatherData = await weatherResponse.json();
 
-      console.log(data);
-
-      document.getElementById("dream").innerText = data.dream;
       document.getElementById("weather").innerHTML = `
             <div class="weather-location">
             ${weatherData.city}
@@ -40,6 +34,15 @@ async function loadDream() {
             </p>
 
             </div>;`;
+
+            
+      const response = await fetch(`/api/dream?lat=${lat}&long=${long}`);
+      const data = await response.json();
+
+      document.getElementById("dream").innerText = data.dream;
+
+      console.log(data);
+
     },
     (error) => {
       console.error("Error getting geolocation:", error);

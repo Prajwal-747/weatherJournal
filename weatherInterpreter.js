@@ -2,11 +2,14 @@ function interpretWeather(weather) {
     const interpretation = {
         mood: new Set(),
         atmosphere: new Set(),
-        imagery: new Set(),
+        scenario: new Set(),
+        objects: new Set(),
         symbols: new Set(),
         palette: new Set(),
+        lightings: new Set(),
         sounds: new Set(),
         textures: new Set(),
+        motion: new Set(),
         emotions: new Set(),
         pace: new Set()
     }
@@ -115,7 +118,7 @@ function interpretWeather(weather) {
                 "breezy hills"
             ],
             symbols: [
-                "sunglight"
+                "sunlight"
             ],
             palette: [
                 "gold",

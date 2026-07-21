@@ -8,20 +8,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
+      href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=La+Belle+Aurore&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="book">
-      <div class="page left-page">
-        <h2>Weather Notes</h2>
-        <div id="weather">Loading weather data...</div>
+    <div class="journal-container">
+      <div class="spine"></div>
+      <div class="page page-left">
+        <h2>Meteorological Notes</h2>
+
+        <div id="weather" class="weather-section">
+          <p class="weather-observation">
+            <em>Consulting the meteorological instruments...</em>
+          </p>
+        </div>
       </div>
-      <div class="spin"></div>
-      <div class="page right-page">
-        <h1>Dream Journal</h1>
-        <div id="dream">Loading dream...</div>
+      <div class="page page-right">
+        <div class="date-stamp" id="current-date"></div>
+        <div id="dream" class="dream-content">
+          <p><em>Awaiting the muse...</em></p>
+        </div>
       </div>
     </div>
     <script src="script.js"></script>

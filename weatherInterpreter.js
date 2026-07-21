@@ -11,7 +11,8 @@ function interpretWeather(weather) {
         textures: new Set(),
         motion: new Set(),
         emotions: new Set(),
-        pace: new Set()
+        pace: new Set(),
+        imagery: new Set()
     }
 
     // =================================================
@@ -426,6 +427,10 @@ function interpretWeather(weather) {
 
 function addTraits(target, traits) {
     Object.entries(traits).forEach(([key, values]) => {
+        if (!target[key]) {
+            console.warn(`Unknown interpretation key: ${key}`);
+            return;
+        }
         values.forEach(value => {
             target[key].add(value);
         });

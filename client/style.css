@@ -1,115 +1,218 @@
-* {
-  box-sizing: border-box;
+:root {
+  --ink-color: #2c241b;
+  --ink-faded: #4a3f32;
+  --accent-red: #8b3a3a;
+  --page-tint: rgba(244, 234, 213, 0.88);
 }
 
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  min-height: 100vh;
+  padding: 0;
+}
+
+body, html {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: radial-gradient(circle at top, #1b2440, #090b12); */
-  /* background-image: url("assets/wooden-texture.jpg"); */
+  font-family: 'Crimson Text', serif;
+  color: var(--ink-color);
+  background-color: #1a0f0a;
+  background-image: 
+  radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0, 0, 0,0.95) 90%),
+  url('https://images.unsplash.com/photo-1551269901-5c5e14c25df7?q=80&w=2069&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url("assets/wooden-texture.jpg");
-  font-family: "Cormorant Garamond", serif;
-  color: #2b2118;
+  overflow: hidden;
 }
 
-.book {
-  width: 90%;
-  max-width: 1400px;
-  height: 85vh;
+.journal-container {
+  width: 85vw;
+  max-width: 1200px;
+  height: 80vh;
+  max-height: 800px;
   display: flex;
-  background: #eadfc8;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
   position: relative;
+  box-shadow: 
+  0 40px 80px rgba(0, 0, 0,0.95),
+  0 15px 35px rgba(0,0,0,0.7);
+  border-radius: 12px;
+  perspective: 1500px;
 }
 
 .page {
   flex: 1;
-  padding: 60px;
-  overflow-y: auto;
   position: relative;
+  padding: 4rem;
+  background-image: 
+  linear-gradient(var(--page-tint), var(--page-tint)),
+  url('https://images.unsplash.com/photo-1586075010923-2dd4570fb338?q=80&w=1974&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
-.left-page {
-  background: linear-gradient(to right, #e6dbc3, #f3ead7);
-  border-right: 1px solid rgba(0, 0, 0, 0.8);
+.page-left {
+  border-radius: 12px 0 0 12px;
+  box-shadow: 
+    inset -25px 0 40px -15px rgba(0,0,0,0.25),
+    inset 5px 0 10px rgba(255,255,255,0.4);
+  border-left: 6px solid #e1d4ba;
+  border-top: 4px solid #e9ddc5;
+  border-bottom: 4px solid #e9ddc5;
+  border-right: none;
 }
 
-.right-page {
-  background: linear-gradient(to left, #e6dbc3, #f6eddc);
+.page-right {
+  border-radius: 0 12px 12px 0;
+  box-shadow: 
+    inset 25px 0 40px -15px rgba(0,0,0,0.25),
+    inset -5px 0 10px rgba(255,255,255,0.4);
+  border-right: 6px solid #e1d4ba;
+  border-top: 4px solid #e9ddc5;
+  border-bottom: 4px solid #e9ddc5;
+  border-left: none;
 }
 
 .spine {
-  width: 18px;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  transform: translateX(-50%);
   background: linear-gradient(
     to right,
-    rgba(0, 0, 0, 0.25),
-    rgba(255, 255, 255, 0.08),
-    rgba(0, 0, 0, 0.18)
+    transparent 0%,
+    rgba(0, 0, 0, 0.02) 25%, 
+    rgba(0, 0, 0, 0.12) 45%, 
+    rgba(0, 0, 0, 0.7) 49.5%, 
+    rgba(15, 8, 5, 0.95) 50%,
+    rgba(0, 0, 0, 0.7) 50.5%, 
+    rgba(0, 0, 0, 0.12) 55%, 
+    rgba(0, 0, 0, 0.02) 75%,
+    transparent 100%
   );
-
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+  pointer-events: none;
 }
 
-h1 {
-  margin-top: 0;
-  font-size: 2rem;
-  font-weight: 500;
-  letter-spacing: 1px;
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
+  color: var(--ink-color);
 }
 
-#weather {
+.date-stamp {
+  font-family: 'La Belle Aurore', cursive;
+  font-size: 1.8rem;
+  color: var(--accent-red);
+  text-align: right;
+  border-bottom: 1px solid rgba(44, 36, 27, 0.15);
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+  transform: rotate(-1.5deg);
+}
+
+.weather-section {
   display: flex;
   flex-direction: column;
-  align-items: left;
-  margin-top: 80px;
+  gap: 2rem;
 }
 
-.weather-location {
-  font-size: 2rem;
-  margin-bottom: 20px;
+.weather-observation {
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: var(--ink-faded);
+  border-left: 2px solid var(--accent-red);
+  padding-left: 1.2rem;
 }
 
-.weather-date {
-  font-size: 1.2rem;
-  margin-bottom: 70px;
-  opacity: 0.8;
+.weather-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 1rem;
+  font-size: 1.15rem;
 }
 
-.weather-info {
-  width: 100%;
-  max-width: 320px;
+.weather-data span {
+  display: block;
+  border-bottom: 1px dotted rgba(44, 36, 27, 0.4);
+  padding-bottom: 0.3rem;
+  margin-top: 0.3rem;
+  color: var(--ink-faded);
 }
 
-.weather-info p {
-  margin-bottom: 30px;
-  font-size: 1.3rem;
-  line-height: 1.6;
+.dream-content {
+  font-size: 1.25rem;
+  line-height: 2rem;
+  text-align: justify;
+  background-image: linear-gradient(transparent 95%, rgba(44, 36, 27, 0.12) 100%);
+  background-size: 100% 2rem;
+  padding-top: 0.2rem;
 }
 
-#dream {
-  margin-top: 40px;
-  font-size: 1.5rem;
-  line-height: 2;
-  white-space: pre-wrap;
-  max-width: 90%;
+.dream-content p {
+  margin-bottom: 2rem;
 }
 
-.page::-webkit-scrollbar {
-  width: 6px;
+.fade-in {
+  animation: textAppear 1.2s ease-out forwards;
 }
 
-.page::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+@keyframes textAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
 
-  border-radius: 10px;
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 115, 85, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 115, 85, 0.5);
+}
+
+@media (max-width: 900px) {
+  .journal-container {
+    flex-direction: column;
+    height: 92vh;
+    width: 92vw;
+  }
+  .spine {
+    display: none;
+  }
+  .page {
+    padding: 2.5rem 1.5rem;
+  }
+  .page-left {
+    border-radius: 12px 12px 0 0;
+    border-bottom: none;
+    box-shadow: inset 0 10px 20px -10px rgba(0,0,0,0.1);
+    padding-bottom: 1.4rem;
+  }
+  .page-right {
+    border-radius: 0 0 12px 12px;
+    border-top: 1px dotted rgba(44, 36, 27, 0.2); /* A subtle divider instead of a harsh cut */
+    box-shadow: inset 0 -10px 20px -10px rgba(0,0,0,0.1);
+    padding-top: 1.5rem;
+  }
 }

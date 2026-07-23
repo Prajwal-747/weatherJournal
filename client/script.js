@@ -73,7 +73,7 @@ function displayDream(dream) {
           .map(paragraph => `<p>${paragraph}</p>`)
           .join('');
 
-  dreamContainer.innerHTML = `<div class="fade-in">${formattedDream}</div>`;
+  dreamContainer.innerHTML = `<div class="dream-paper fade-in">${formattedDream}</div>`;
   console.log(formattedDream);
 }
 

@@ -1,3 +1,5 @@
+import { getTodayEntry, saveEntry } from "./journal.js";
+
 document.addEventListener('DOMContentLoaded', () => {
   setupDateStamp();
   loadDream();
@@ -34,32 +36,10 @@ function startAtmosphericLoading(elementId, phrases) {
   return interval;
 }
 
-async function loadDream() {
+function displayWeather(weatherData){
   const weatherContainer = document.getElementById("weather");
-  const dreamContainer = document.getElementById("dream");
-  
-  const dreamLoadingPhrases = [
-    "Awaiting the muse...",
-    "Closing eyes to the waking world...",
-    "Tracing patterns in the dark...",
-    "The ink is slowly drying..."
-  ];
 
-  const loadingInterval = startAtmosphericLoading("dream", dreamLoadingPhrases);
-  
-  navigator.geolocation.getCurrentPosition(
-    async (position) => {
-      const lat = position.coords.latitude;
-      const long = position.coords.longitude;
-      console.log("Got geolocation:", lat, long);
-
-      try {
-        const weatherResponse = await fetch(
-          `/api/weather?lat=${lat}&long=${long}`,
-        );
-        const weatherData = await weatherResponse.json();
-
-        weatherContainer.innerHTML = `
+  weatherContainer.innerHTML = `
           <p class="weather-observation fade-in">
               "Observations recorded in ${weatherData.city}"
           </p>
@@ -81,22 +61,68 @@ async function loadDream() {
               <span>${weatherData.moonphase}</span>
             </div>
           </div>
-        `;
-   
-        const dreamResponse = await fetch(`/api/dream?lat=${lat}&long=${long}`);
-        if (!dreamResponse.ok) throw new Error("Dream API Failed");
-        const dreamdata = await dreamResponse.json();
+  `;
+}
 
-        clearInterval(loadingInterval);
+function displayDream(dream) {
+  const dreamContainer = document.getElementById("dream");
 
-        const formattedDream = dreamdata.dream
+  const formattedDream = dream
           .split('\n')
           .filter(paragraph => paragraph.trim() !== '')
           .map(paragraph => `<p>${paragraph}</p>`)
           .join('');
 
-        dreamContainer.innerHTML = `<div class="fade-in">${formattedDream}</div>`;
-        console.log(formattedDream);
+  dreamContainer.innerHTML = `<div class="fade-in">${formattedDream}</div>`;
+  console.log(formattedDream);
+}
+
+async function loadDream() {
+
+  const todayEntry = getTodayEntry();
+  if (todayEntry) {
+    displayWeather(todayEntry.weather);
+    displayDream(todayEntry.dream);
+    return;
+  }
+
+  const dreamLoadingPhrases = [
+    "Awaiting the muse...",
+    "Closing eyes to the waking world...",
+    "Tracing patterns in the dark...",
+    "The ink is slowly drying..."
+  ];
+
+  const loadingInterval = startAtmosphericLoading("dream", dreamLoadingPhrases);
+  
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      const lat = position.coords.latitude;
+      const long = position.coords.longitude;
+      console.log("Got geolocation:", lat, long);
+
+      try {
+        const weatherResponse = await fetch(
+          `/api/weather?lat=${lat}&long=${long}`,
+        );
+        const weatherData = await weatherResponse.json();
+
+        displayWeather(weatherData);
+   
+        const dreamResponse = await fetch(`/api/dream?lat=${lat}&long=${long}`);
+        if (!dreamResponse.ok) throw new Error("Dream API Failed");
+        const dreamdata = await dreamResponse.json();
+
+        saveEntry({
+          id: weatherData.dateTime.split(" ")[0],
+          date:weatherData.dateTime.split(" ")[0],
+          weather: weatherData,
+          dream: dreamdata.dream
+        });
+
+        displayDream(dreamdata.dream)
+
+        clearInterval(loadingInterval);
       } catch (error) {
         console.error("The pages remain blank: ", error);
         clearInterval(loadingInterval);

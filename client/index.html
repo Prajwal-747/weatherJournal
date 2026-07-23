@@ -11,24 +11,27 @@
       href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=La+Belle+Aurore&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="journal-container">
-      <div class="spine"></div>
-      <div class="page page-left">
-        <h2>Meteorological Notes</h2>
+    <div class="journal-wrapper">
+      <div class="journal-container">
+        <div class="spine"></div>
+        <div class="page page-left">
+          <h2>Meteorological Notes</h2>
 
-        <div id="weather" class="weather-section">
-          <p class="weather-observation">
-            <em>Consulting the meteorological instruments...</em>
-          </p>
+          <div id="weather" class="weather-section">
+            <p class="weather-observation">
+              <em>Consulting the meteorological instruments...</em>
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="page page-right">
-        <div class="date-stamp" id="current-date"></div>
-        <div id="dream" class="dream-content">
-          <p><em>Awaiting the muse...</em></p>
+        <div class="page page-right">
+          <div class="date-stamp" id="current-date"></div>
+          <div id="dream" class="dream-content">
+            <p><em>Awaiting the muse...</em></p>
+          </div>
         </div>
       </div>
     </div>
+    <div id="history" class="journal-tabs"></div>
     <script type="module" src="script.js"></script>
   </body>
 </html>

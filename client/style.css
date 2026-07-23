@@ -27,6 +27,12 @@ body, html {
   overflow: hidden;
 }
 
+.journal-wrapper {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+}
+
 .journal-container {
   width: 85vw;
   max-width: 1200px;
@@ -39,6 +45,7 @@ body, html {
   0 15px 35px rgba(0,0,0,0.7);
   border-radius: 12px;
   perspective: 1500px;
+  overflow: visible;
 }
 
 .page {
@@ -50,7 +57,7 @@ body, html {
   url('https://images.unsplash.com/photo-1586075010923-2dd4570fb338?q=80&w=1974&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
-  overflow-y: auto;
+  overflow: hidden;
   scroll-behavior: smooth;
 }
 
@@ -74,6 +81,8 @@ body, html {
   border-top: 4px solid #e9ddc5;
   border-bottom: 4px solid #e9ddc5;
   border-left: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .spine {
@@ -95,7 +104,7 @@ body, html {
     rgba(0, 0, 0, 0.02) 75%,
     transparent 100%
   );
-  z-index: 10;
+  z-index: 20;
   pointer-events: none;
 }
 
@@ -154,6 +163,8 @@ h1, h2, h3 {
   background-image: linear-gradient(transparent 95%, rgba(44, 36, 27, 0.12) 100%);
   background-size: 100% 2rem;
   padding-top: 0.2rem;
+
+  overflow-y: auto;
 }
 
 .dream-content p {
@@ -162,6 +173,44 @@ h1, h2, h3 {
 
 .fade-in {
   animation: textAppear 1.2s ease-out forwards;
+}
+
+.journal-tabs {
+  position: fixed;
+  top: 175px;
+  right: calc((100vw - min(85vw, 1200px))/2 - 50px);
+  z-index: 5;
+}
+
+.history-tab {
+  position: absolute;
+  right: 0;
+  width: 82px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:#e5d5b5;
+  border-radius: 0 4px 4px 0;
+  border: 1px solid #bda47c;
+  border-left: none;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: #4d3826;
+  cursor: pointer;
+  transition: all .25s ease;
+  box-shadow: 
+    1px 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.history-tab:hover {
+  right: -8px;
+}
+
+.history-tab.active {
+  right: -22px;
+  background:#f1e4ca;
+  font-weight: 600;
 }
 
 @keyframes textAppear {

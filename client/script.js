@@ -1,4 +1,4 @@
-import { getTodayEntry, saveEntry } from "./journal.js";
+import { getAllEntries, getEntry, getTodayEntry, saveEntry } from "./journal.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   setupDateStamp();
@@ -77,9 +77,54 @@ function displayDream(dream) {
   console.log(formattedDream);
 }
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+}
+
+function displayHistory(entries) {
+  const historyContainer = document.getElementById("history");
+
+  const sortedEntries = [...entries].sort((a,b) => b.id.localeCompare(a.id)
+  );
+
+  historyContainer.innerHTML = sortedEntries.map((entry, index) => {
+    const date = new Date(entry.id);
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-US", {
+      month: "short"
+    }).toUpperCase();
+    return `
+    <div class="history-tab ${index===0 ? "active" : ""}" data-id="${entry.id}" style="top:${index*32}px">
+      ${day} ${month}
+    </div>
+    `;
+  }).join("");
+  historyContainer.querySelectorAll(".history-tab").forEach(item => {
+    item.addEventListener("click", () => {
+      const id = item.dataset.id;
+      const entry = getEntry(id);
+      if (!entry) return;
+
+      historyContainer.querySelectorAll(".history-tab").forEach(tab => {tab.classList.remove("active");});
+      item.classList.add("active");
+      displayWeather(entry.weather);
+      displayDream(entry.dream);
+    })
+  });
+}
+
 async function loadDream() {
 
   const todayEntry = getTodayEntry();
+
+  displayHistory(getAllEntries());
+
   if (todayEntry) {
     displayWeather(todayEntry.weather);
     displayDream(todayEntry.dream);
@@ -113,23 +158,30 @@ async function loadDream() {
         if (!dreamResponse.ok) throw new Error("Dream API Failed");
         const dreamdata = await dreamResponse.json();
 
+        const date = weatherData.dateTime.split(" ")[0];
+
         saveEntry({
-          id: weatherData.dateTime.split(" ")[0],
-          date:weatherData.dateTime.split(" ")[0],
+          id: date,
+          date: date,
           weather: weatherData,
           dream: dreamdata.dream
         });
 
-        displayDream(dreamdata.dream)
+        displayHistory(getAllEntries());
 
         clearInterval(loadingInterval);
+
+        displayDream(dreamdata.dream)
+
       } catch (error) {
+        const dreamContainer = document.getElementById("dream");
         console.error("The pages remain blank: ", error);
         clearInterval(loadingInterval);
         dreamContainer.innerHTML = `<p class="fade-in"><em>The ink has spilled. Could not transcribe the visions from the ether.</em></p>`
       }
     },
     (error) => {
+      const weatherContainer = document.getElementById("weather");
       console.error("Cartography error: ", error);
       clearInterval(loadingInterval);
       weatherContainer.innerHTML = `<p class="weather-observation fade-in">Location unknown to the local cartographers.</p>`;

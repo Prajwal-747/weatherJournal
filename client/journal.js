@@ -27,7 +27,8 @@ export function getTodayEntry() {
     return entries.find(entry => entry.id === today) || null;
 }
 
-function clearJournal() {
-    
+export function getEntry(id) {
+    const entries = getAllEntries();
+    return entries.find(entry => entry.id === id) || null;
 }
 

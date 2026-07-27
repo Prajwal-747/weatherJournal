@@ -1,7 +1,4 @@
-async function generateDream(
-  weatherInfo,
-  interpretation
-) {
+async function generateDream(weatherInfo, interpretation) {
   console.log("Request Received");
   const prompt = `Current Weather Conditions:
     City: ${weatherInfo.city}, ${weatherInfo.region}, ${weatherInfo.country}
@@ -82,7 +79,25 @@ async function generateDream(
 The dream should feel intimate and personal.
 Do not mention the weather directly.
 Do not explain symbolism.
-Do not make it scary unless storms are extreme.`;
+Do not make it scary unless storms are extreme.
+
+Return Only valid JSON in this exact format:
+
+{
+  "title": "A short poetic title (2-5 words)",
+  "dream": "The complete dream"
+}
+
+Rules:
+- Title should be mysterious and literary.
+- Maximum 30 characters.
+- Literary and poetic.
+- Avoid Punctuation except apostrophes.
+- Avoid using "The" unless it sounds natural
+- Do not include markdown.
+- do not include explanations.
+- Return only JSON.
+`;
 
   const response = await fetch("https://ai.hackclub.com/proxy/v1/responses", {
     method: "POST",
@@ -116,7 +131,10 @@ Do not make it scary unless storms are extreme.`;
 
   const aiText = messageOutput.content[0].text;
   console.log("AI Text:", aiText);
-  return aiText;
+
+  const dreamData = JSON.parse(aiText);
+  console.log("Parsed Dream: ", dreamData);
+  return dreamData;
 }
 
 export default generateDream;

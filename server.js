@@ -19,7 +19,7 @@ app.get("/api/dream", async (req, res) => {
   const interpretedWeather = interpretWeather(weather);
   console.log("Interpreted weather:", interpretedWeather);
   const dream = await generateDream(weather, interpretedWeather);
-  res.json({ dream: dream });
+  res.json(dream);
 });
 
 app.get("/api/weather", async (req, res) => {

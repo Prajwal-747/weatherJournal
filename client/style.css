@@ -11,17 +11,22 @@
   padding: 0;
 }
 
-body, html {
+body,
+html {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Crimson Text', serif;
+  font-family: "Crimson Text", serif;
   color: var(--ink-color);
   background-color: #1a0f0a;
-  background-image: 
-  radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0, 0, 0,0.95) 90%),
-  url('https://images.unsplash.com/photo-1551269901-5c5e14c25df7?q=80&w=2069&auto=format&fit=crop');
+  background-image:
+    radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.95) 90%
+    ),
+    url("https://images.unsplash.com/photo-1551269901-5c5e14c25df7?q=80&w=2069&auto=format&fit=crop");
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -40,9 +45,9 @@ body, html {
   max-height: 800px;
   display: flex;
   position: relative;
-  box-shadow: 
-  0 40px 80px rgba(0, 0, 0,0.95),
-  0 15px 35px rgba(0,0,0,0.7);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.95),
+    0 15px 35px rgba(0, 0, 0, 0.7);
   border-radius: 12px;
   perspective: 1500px;
   overflow: visible;
@@ -52,9 +57,9 @@ body, html {
   flex: 1;
   position: relative;
   padding: 4rem;
-  background-image: 
-  linear-gradient(var(--page-tint), var(--page-tint)),
-  url('https://images.unsplash.com/photo-1586075010923-2dd4570fb338?q=80&w=1974&auto=format&fit=crop');
+  background-image:
+    linear-gradient(var(--page-tint), var(--page-tint)),
+    url("https://images.unsplash.com/photo-1586075010923-2dd4570fb338?q=80&w=1974&auto=format&fit=crop");
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -63,9 +68,9 @@ body, html {
 
 .page-left {
   border-radius: 12px 0 0 12px;
-  box-shadow: 
-    inset -25px 0 40px -15px rgba(0,0,0,0.25),
-    inset 5px 0 10px rgba(255,255,255,0.4);
+  box-shadow:
+    inset -25px 0 40px -15px rgba(0, 0, 0, 0.25),
+    inset 5px 0 10px rgba(255, 255, 255, 0.4);
   border-left: 6px solid #e1d4ba;
   border-top: 4px solid #e9ddc5;
   border-bottom: 4px solid #e9ddc5;
@@ -74,9 +79,9 @@ body, html {
 
 .page-right {
   border-radius: 0 12px 12px 0;
-  box-shadow: 
-    inset 25px 0 40px -15px rgba(0,0,0,0.25),
-    inset -5px 0 10px rgba(255,255,255,0.4);
+  box-shadow:
+    inset 25px 0 40px -15px rgba(0, 0, 0, 0.25),
+    inset -5px 0 10px rgba(255, 255, 255, 0.4);
   border-right: 6px solid #e1d4ba;
   border-top: 4px solid #e9ddc5;
   border-bottom: 4px solid #e9ddc5;
@@ -95,12 +100,12 @@ body, html {
   background: linear-gradient(
     to right,
     transparent 0%,
-    rgba(0, 0, 0, 0.02) 25%, 
-    rgba(0, 0, 0, 0.12) 45%, 
-    rgba(0, 0, 0, 0.7) 49.5%, 
+    rgba(0, 0, 0, 0.02) 25%,
+    rgba(0, 0, 0, 0.12) 45%,
+    rgba(0, 0, 0, 0.7) 49.5%,
     rgba(15, 8, 5, 0.95) 50%,
-    rgba(0, 0, 0, 0.7) 50.5%, 
-    rgba(0, 0, 0, 0.12) 55%, 
+    rgba(0, 0, 0, 0.7) 50.5%,
+    rgba(0, 0, 0, 0.12) 55%,
     rgba(0, 0, 0, 0.02) 75%,
     transparent 100%
   );
@@ -108,7 +113,9 @@ body, html {
   pointer-events: none;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 600;
   letter-spacing: 0.5px;
   margin-bottom: 1.5rem;
@@ -116,7 +123,7 @@ h1, h2, h3 {
 }
 
 .date-stamp {
-  font-family: 'La Belle Aurore', cursive;
+  font-family: "La Belle Aurore", cursive;
   font-size: 1.8rem;
   color: var(--accent-red);
   text-align: right;
@@ -167,14 +174,30 @@ h1, h2, h3 {
   min-height: 0;
 }
 
+.dream-title {
+  font-family: "La Belle Aurore", cursive;
+  font-size: 2rem;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 1rem 0;
+  color: #3d2f1f;
+  padding-bottom: 6px;
+}
+
+.dream-title::after {
+  content: "";
+  display: block;
+  width: 60%;
+  margin: 0.5rem auto 0;
+}
+
 .dream-paper {
   min-height: 100%;
-  background-image: 
-    linear-gradient(
-      transparent 95%,
-      rgba(44,36,27,0.12) 100%
-    );
-    background-size: 100% 2rem;
+  background-image: linear-gradient(
+    transparent 95%,
+    rgba(44, 36, 27, 0.12) 100%
+  );
+  background-size: 100% 2rem;
 }
 
 .dream-content p {
@@ -188,7 +211,7 @@ h1, h2, h3 {
 .journal-tabs {
   position: fixed;
   top: 175px;
-  right: calc((100vw - min(85vw, 1200px))/2 - 50px);
+  right: calc((100vw - min(85vw, 1200px)) / 2 - 50px);
   z-index: 5;
 }
 
@@ -200,7 +223,7 @@ h1, h2, h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  background:#e5d5b5;
+  background: #e5d5b5;
   border-radius: 0 4px 4px 0;
   border: 1px solid #bda47c;
   border-left: none;
@@ -208,9 +231,8 @@ h1, h2, h3 {
   letter-spacing: 2px;
   color: #4d3826;
   cursor: pointer;
-  transition: all .25s ease;
-  box-shadow: 
-    1px 1px 4px rgba(0, 0, 0, 0.12);
+  transition: all 0.25s ease;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.12);
 }
 
 .history-tab:hover {
@@ -219,7 +241,7 @@ h1, h2, h3 {
 
 .history-tab.active {
   right: -22px;
-  background:#f1e4ca;
+  background: #f1e4ca;
   font-weight: 600;
 }
 
@@ -265,13 +287,13 @@ h1, h2, h3 {
   .page-left {
     border-radius: 12px 12px 0 0;
     border-bottom: none;
-    box-shadow: inset 0 10px 20px -10px rgba(0,0,0,0.1);
+    box-shadow: inset 0 10px 20px -10px rgba(0, 0, 0, 0.1);
     padding-bottom: 1.4rem;
   }
   .page-right {
     border-radius: 0 0 12px 12px;
     border-top: 1px dotted rgba(44, 36, 27, 0.2); /* A subtle divider instead of a harsh cut */
-    box-shadow: inset 0 -10px 20px -10px rgba(0,0,0,0.1);
+    box-shadow: inset 0 -10px 20px -10px rgba(0, 0, 0, 0.1);
     padding-top: 1.5rem;
   }
 }

@@ -73,7 +73,7 @@ function displayWeather(weatherData) {
   `;
 }
 
-function displayDream(dream) {
+function displayDream(title, dream) {
   const dreamContainer = document.getElementById("dream");
 
   const formattedDream = dream
@@ -82,7 +82,12 @@ function displayDream(dream) {
     .map((paragraph) => `<p>${paragraph}</p>`)
     .join("");
 
-  dreamContainer.innerHTML = `<div class="dream-paper fade-in">${formattedDream}</div>`;
+  dreamContainer.innerHTML = `
+    <div class="dream-paper fade-in">
+      <h2 class="dream-title">${title ?? "Untitled Dream"}</h2>
+      ${formattedDream}
+    </div>
+  `;
   console.log(formattedDream);
 }
 
@@ -130,7 +135,7 @@ function displayHistory(entries) {
       });
       item.classList.add("active");
       displayWeather(entry.weather);
-      displayDream(entry.dream);
+      displayDream(entry.title, entry.dream);
     });
   });
 }
@@ -142,7 +147,7 @@ async function loadDream() {
 
   if (todayEntry) {
     displayWeather(todayEntry.weather);
-    displayDream(todayEntry.dream);
+    displayDream(todayEntry.title, todayEntry.dream);
     return;
   }
 
@@ -178,6 +183,7 @@ async function loadDream() {
         saveEntry({
           id: date,
           date: date,
+          title: dreamdata.title,
           weather: weatherData,
           dream: dreamdata.dream,
         });
@@ -186,7 +192,7 @@ async function loadDream() {
 
         clearInterval(loadingInterval);
 
-        displayDream(dreamdata.dream);
+        displayDream(dreamdata.title, dreamdata.dream);
       } catch (error) {
         const dreamContainer = document.getElementById("dream");
         console.error("The pages remain blank: ", error);

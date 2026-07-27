@@ -1,25 +1,34 @@
-import { getAllEntries, getEntry, getTodayEntry, saveEntry } from "./journal.js";
+import {
+  getAllEntries,
+  getEntry,
+  getTodayEntry,
+  saveEntry,
+} from "./journal.js";
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   setupDateStamp();
   loadDream();
 });
 
 function setupDateStamp() {
-  const dateElement = document.getElementById('current-date');
+  const dateElement = document.getElementById("current-date");
   const today = new Date();
-  const nth = function(d) {
-    if (d>3 && d<21) return 'th';
-    switch (d%10) {
-      case 1: return "st";
-      case 2: return "nd";
-      case 3: return "rd";
-      default: return "th";
+  const nth = function (d) {
+    if (d > 3 && d < 21) return "th";
+    switch (d % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
     }
-  }
+  };
 
   const day = today.getDate();
-  const month = today.toLocaleDateString('en-US', {month: 'long'});
+  const month = today.toLocaleDateString("en-US", { month: "long" });
   const year = today.getFullYear();
 
   dateElement.textContent = `${month} ${day}${nth(day)}, ${year}`;
@@ -36,7 +45,7 @@ function startAtmosphericLoading(elementId, phrases) {
   return interval;
 }
 
-function displayWeather(weatherData){
+function displayWeather(weatherData) {
   const weatherContainer = document.getElementById("weather");
 
   weatherContainer.innerHTML = `
@@ -68,10 +77,10 @@ function displayDream(dream) {
   const dreamContainer = document.getElementById("dream");
 
   const formattedDream = dream
-          .split('\n')
-          .filter(paragraph => paragraph.trim() !== '')
-          .map(paragraph => `<p>${paragraph}</p>`)
-          .join('');
+    .split("\n")
+    .filter((paragraph) => paragraph.trim() !== "")
+    .map((paragraph) => `<p>${paragraph}</p>`)
+    .join("");
 
   dreamContainer.innerHTML = `<div class="dream-paper fade-in">${formattedDream}</div>`;
   console.log(formattedDream);
@@ -83,44 +92,50 @@ function formatDate(dateString) {
   return date.toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
-    year: "numeric"
+    year: "numeric",
   });
 }
 
 function displayHistory(entries) {
   const historyContainer = document.getElementById("history");
 
-  const sortedEntries = [...entries].sort((a,b) => b.id.localeCompare(a.id)
-  );
+  const sortedEntries = [...entries]
+    .sort((a, b) => b.id.localeCompare(a.id))
+    .slice(0, 9);
 
-  historyContainer.innerHTML = sortedEntries.map((entry, index) => {
-    const date = new Date(entry.id);
-    const day = date.getDate();
-    const month = date.toLocaleDateString("en-US", {
-      month: "short"
-    }).toUpperCase();
-    return `
-    <div class="history-tab ${index===0 ? "active" : ""}" data-id="${entry.id}" style="top:${index*32}px">
+  historyContainer.innerHTML = sortedEntries
+    .map((entry, index) => {
+      const date = new Date(entry.id);
+      const day = date.getDate();
+      const month = date
+        .toLocaleDateString("en-US", {
+          month: "short",
+        })
+        .toUpperCase();
+      return `
+    <div class="history-tab ${index === 0 ? "active" : ""}" data-id="${entry.id}" style="top:${index * 32}px">
       ${day} ${month}
     </div>
     `;
-  }).join("");
-  historyContainer.querySelectorAll(".history-tab").forEach(item => {
+    })
+    .join("");
+  historyContainer.querySelectorAll(".history-tab").forEach((item) => {
     item.addEventListener("click", () => {
       const id = item.dataset.id;
       const entry = getEntry(id);
       if (!entry) return;
 
-      historyContainer.querySelectorAll(".history-tab").forEach(tab => {tab.classList.remove("active");});
+      historyContainer.querySelectorAll(".history-tab").forEach((tab) => {
+        tab.classList.remove("active");
+      });
       item.classList.add("active");
       displayWeather(entry.weather);
       displayDream(entry.dream);
-    })
+    });
   });
 }
 
 async function loadDream() {
-
   const todayEntry = getTodayEntry();
 
   displayHistory(getAllEntries());
@@ -135,11 +150,11 @@ async function loadDream() {
     "Awaiting the muse...",
     "Closing eyes to the waking world...",
     "Tracing patterns in the dark...",
-    "The ink is slowly drying..."
+    "The ink is slowly drying...",
   ];
 
   const loadingInterval = startAtmosphericLoading("dream", dreamLoadingPhrases);
-  
+
   navigator.geolocation.getCurrentPosition(
     async (position) => {
       const lat = position.coords.latitude;
@@ -153,7 +168,7 @@ async function loadDream() {
         const weatherData = await weatherResponse.json();
 
         displayWeather(weatherData);
-   
+
         const dreamResponse = await fetch(`/api/dream?lat=${lat}&long=${long}`);
         if (!dreamResponse.ok) throw new Error("Dream API Failed");
         const dreamdata = await dreamResponse.json();
@@ -164,20 +179,19 @@ async function loadDream() {
           id: date,
           date: date,
           weather: weatherData,
-          dream: dreamdata.dream
+          dream: dreamdata.dream,
         });
 
         displayHistory(getAllEntries());
 
         clearInterval(loadingInterval);
 
-        displayDream(dreamdata.dream)
-
+        displayDream(dreamdata.dream);
       } catch (error) {
         const dreamContainer = document.getElementById("dream");
         console.error("The pages remain blank: ", error);
         clearInterval(loadingInterval);
-        dreamContainer.innerHTML = `<p class="fade-in"><em>The ink has spilled. Could not transcribe the visions from the ether.</em></p>`
+        dreamContainer.innerHTML = `<p class="fade-in"><em>The ink has spilled. Could not transcribe the visions from the ether.</em></p>`;
       }
     },
     (error) => {

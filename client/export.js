@@ -1,4 +1,4 @@
-export function exportCurrentEntry(entry) {
+export function exportText(entry) {
   if (!entry) {
     console.error("No journal entry selected.");
     return;

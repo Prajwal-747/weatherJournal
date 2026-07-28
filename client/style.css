@@ -245,6 +245,44 @@ h3 {
   font-weight: 600;
 }
 
+.export-container {
+  position: relative;
+}
+
+.export-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  min-width: 140px;
+  padding: 6px;
+  background: #efe5cf;
+  border: 1px solid #bda47c;
+  border-radius: 4px;
+  box-shadow: 3px 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 100;
+}
+
+.export-menu.open {
+  display: flex;
+  flex-direction: column;
+}
+
+.export-menu button {
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  font-family: "Crimson Text", serif;
+  font-size: 1rem;
+  color: var(--ink-color);
+  text-align: left;
+  cursor: pointer;
+}
+
+.export-menu button:hover {
+  background: rgba(139, 58, 58, 0.1);
+}
+
 @keyframes textAppear {
   0% {
     opacity: 0;

@@ -4,17 +4,29 @@ import {
   getTodayEntry,
   saveEntry,
 } from "./journal.js";
-import { exportCurrentEntry } from "./export.js";
+import { exportMarkdown, exportText } from "./export.js";
 
 let currentEntry = null;
+const exportButton = document.getElementById("export-btn");
+const exportMenu = document.getElementById("export-menu");
 
 document.addEventListener("DOMContentLoaded", () => {
   setupDateStamp();
   loadDream();
 });
 
-document.getElementById("export-btn").addEventListener("click", () => {
-  exportCurrentEntry(currentEntry);
+exportButton.addEventListener("click", () => {
+  exportMenu.classList.toggle("open");
+});
+
+document.getElementById("export-txt").addEventListener("click", () => {
+  exportText(currentEntry);
+  exportMenu.classList.remove("open");
+});
+
+document.getElementById("export-md").addEventListener("click", () => {
+  exportMarkdown(currentEntry);
+  exportMenu.classList.remove("open");
 });
 
 function setupDateStamp(dateString) {

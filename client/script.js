@@ -4,15 +4,22 @@ import {
   getTodayEntry,
   saveEntry,
 } from "./journal.js";
+import { exportCurrentEntry } from "./export.js";
+
+let currentEntry = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   setupDateStamp();
   loadDream();
 });
 
-function setupDateStamp() {
+document.getElementById("export-btn").addEventListener("click", () => {
+  exportCurrentEntry(currentEntry);
+});
+
+function setupDateStamp(dateString) {
   const dateElement = document.getElementById("current-date");
-  const today = new Date();
+  const date = dateString ? new Date(dateString + "T00:00:00") : new Date();
   const nth = function (d) {
     if (d > 3 && d < 21) return "th";
     switch (d % 10) {
@@ -27,9 +34,9 @@ function setupDateStamp() {
     }
   };
 
-  const day = today.getDate();
-  const month = today.toLocaleDateString("en-US", { month: "long" });
-  const year = today.getFullYear();
+  const day = date.getDate();
+  const month = date.toLocaleDateString("en-US", { month: "long" });
+  const year = date.getFullYear();
 
   dateElement.textContent = `${month} ${day}${nth(day)}, ${year}`;
 }
@@ -129,6 +136,7 @@ function displayHistory(entries) {
       const id = item.dataset.id;
       const entry = getEntry(id);
       if (!entry) return;
+      currentEntry = entry;
 
       historyContainer.querySelectorAll(".history-tab").forEach((tab) => {
         tab.classList.remove("active");
@@ -136,6 +144,7 @@ function displayHistory(entries) {
       item.classList.add("active");
       displayWeather(entry.weather);
       displayDream(entry.title, entry.dream);
+      setupDateStamp(entry.date);
     });
   });
 }
@@ -146,6 +155,7 @@ async function loadDream() {
   displayHistory(getAllEntries());
 
   if (todayEntry) {
+    currentEntry = todayEntry;
     displayWeather(todayEntry.weather);
     displayDream(todayEntry.title, todayEntry.dream);
     return;
@@ -180,13 +190,17 @@ async function loadDream() {
 
         const date = weatherData.dateTime.split(" ")[0];
 
-        saveEntry({
+        newEntry = {
           id: date,
           date: date,
           title: dreamdata.title,
           weather: weatherData,
           dream: dreamdata.dream,
-        });
+        };
+
+        currentEntry = newEntry;
+
+        saveEntry(newEntry);
 
         displayHistory(getAllEntries());
 

@@ -4,7 +4,7 @@ import {
   getTodayEntry,
   saveEntry,
 } from "./journal.js";
-import { exportMarkdown, exportText } from "./export.js";
+import { exportMarkdown, exportText, exportPDF } from "./export.js";
 
 let currentEntry = null;
 const exportButton = document.getElementById("export-btn");
@@ -26,6 +26,11 @@ document.getElementById("export-txt").addEventListener("click", () => {
 
 document.getElementById("export-md").addEventListener("click", () => {
   exportMarkdown(currentEntry);
+  exportMenu.classList.remove("open");
+});
+
+document.getElementById("export-pdf").addEventListener("click", () => {
+  exportPDF(currentEntry);
   exportMenu.classList.remove("open");
 });
 
@@ -202,7 +207,7 @@ async function loadDream() {
 
         const date = weatherData.dateTime.split(" ")[0];
 
-        newEntry = {
+        const newEntry = {
           id: date,
           date: date,
           title: dreamdata.title,

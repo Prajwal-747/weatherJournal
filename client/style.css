@@ -246,21 +246,51 @@ h3 {
 }
 
 .export-container {
-  position: relative;
+  position: fixed;
+  right: calc((100vw - min(85vw, 1200px)) / 2 - 50px);
+  bottom: calc((100vh - min(80vh, 800px)) / 2 + 20px);
+  z-index: 30;
+}
+
+.export-container:hover .export-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.export-tab {
+  width: 82px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #e5d5b5;
+  border: 1px solid #bda47c;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: #4d3826;
+  cursor: pointer;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.12);
+  transition: all 0.25s ease;
+}
+
+.export-tab:hover {
+  transform: translateX(8px);
 }
 
 .export-menu {
   display: none;
   position: absolute;
-  right: 0;
-  bottom: calc(100% + 8px);
-  min-width: 140px;
-  padding: 6px;
+  right: 100%;
+  bottom: 0;
+  margin-right: 0;
+  min-width: 170px;
   background: #efe5cf;
   border: 1px solid #bda47c;
-  border-radius: 4px;
-  box-shadow: 3px 4px 10px rgba(0, 0, 0, 0.25);
-  z-index: 100;
+  border-radius: 8px;
+  box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.25);
+  padding: 8px;
 }
 
 .export-menu.open {
@@ -271,16 +301,15 @@ h3 {
 .export-menu button {
   background: transparent;
   border: none;
-  padding: 8px 12px;
+  padding: 10px 14px;
   font-family: "Crimson Text", serif;
   font-size: 1rem;
-  color: var(--ink-color);
-  text-align: left;
+  transition: 0.2s;
   cursor: pointer;
 }
 
 .export-menu button:hover {
-  background: rgba(139, 58, 58, 0.1);
+  background: rgba(139, 58, 58, 0.8);
 }
 
 @keyframes textAppear {

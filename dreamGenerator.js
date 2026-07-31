@@ -1,102 +1,138 @@
 async function generateDream(weatherInfo, interpretation) {
   console.log("Request Received");
-  const prompt = `Current Weather Conditions:
-    City: ${weatherInfo.city}, ${weatherInfo.region}, ${weatherInfo.country}
-    Date,Time: ${weatherInfo.dateTime}
-    Temperature: ${weatherInfo.temperature}°C
-    Wind: ${weatherInfo.windSpeed} kph, ${weatherInfo.windDirection}
-    Humidity: ${weatherInfo.humidity}%
-    Cloud Cover: ${weatherInfo.cloud}%
-    feelslike_c: ${weatherInfo.feelslike}°C
-    visibility: ${weatherInfo.vis_km} km
-    Chance of Rain: ${weatherInfo.chance_of_rain}%
-    Chance of Snow: ${weatherInfo.chance_of_snow}%
-    Will it Rain: ${weatherInfo.will_it_rain ? "Yes" : "No"}
-    Will it Snow: ${weatherInfo.will_it_snow ? "Yes" : "No"}
-    Max Temperature: ${weatherInfo.maxtemp}°C
-    Min Temperature: ${weatherInfo.mintemp}°C
-    avg Temperature: ${weatherInfo.avgtemp}°C
-    Sunrise: ${weatherInfo.sunrise}
-    Sunset: ${weatherInfo.sunset}
-    Moonrise: ${weatherInfo.moonrise}
-    Moonset: ${weatherInfo.moonset}
-    Moon Phase: ${weatherInfo.moonphase}
+  const prompt = `
+Current Weather Conditions:
 
-    Interpretation:
+City: ${weatherInfo.city}, ${weatherInfo.region}, ${weatherInfo.country}
+Date,Time: ${weatherInfo.dateTime}
+Temperature: ${weatherInfo.temperature}°C
+Wind: ${weatherInfo.windSpeed} kph, ${weatherInfo.windDirection}
+Humidity: ${weatherInfo.humidity}%
+Cloud Cover: ${weatherInfo.cloud}%
+feelslike_c: ${weatherInfo.feelslike}°C
+visibility: ${weatherInfo.vis_km} km
+Chance of Rain: ${weatherInfo.chance_of_rain}%
+Chance of Snow: ${weatherInfo.chance_of_snow}%
+Will it Rain: ${weatherInfo.will_it_rain ? "Yes" : "No"}
+Will it Snow: ${weatherInfo.will_it_snow ? "Yes" : "No"}
+Max Temperature: ${weatherInfo.maxtemp}°C
+Min Temperature: ${weatherInfo.mintemp}°C
+avg Temperature: ${weatherInfo.avgtemp}°C
+Sunrise: ${weatherInfo.sunrise}
+Sunset: ${weatherInfo.sunset}
+Moonrise: ${weatherInfo.moonrise}
+Moonset: ${weatherInfo.moonset}
+Moon Phase: ${weatherInfo.moonphase}
 
-    Mood:
-    ${interpretation.mood.join(", ")}
+Interpretation:
 
-    Atmosphere:
-    ${interpretation.atmosphere.join(", ")}
+Mood:
+${interpretation.mood.join(", ")}
 
-    Imagery:
-    ${interpretation.imagery.join(", ")}
+Atmosphere:
+${interpretation.atmosphere.join(", ")}
 
-    Symbols:
-    ${interpretation.symbols.join(", ")}
+Scenario:
+${interpretation.scenario.join(", ")}
 
-    Palette:
-    ${interpretation.palette.join(", ")}
+Objects:
+${interpretation.objects.join(", ")}
 
-    Sounds:
-    ${interpretation.sounds.join(", ")}
+Imagery:
+${interpretation.imagery.join(", ")}
 
-    Textures:
-    ${interpretation.textures.join(", ")}
+Symbols:
+${interpretation.symbols.join(", ")}
 
-    Emotions:
-    ${interpretation.emotions.join(", ")}
+Palette:
+${interpretation.palette.join(", ")}
 
-    Pace: 
-    ${interpretation.pace.join(", ")}
+Lightings:
+${interpretation.lightings.join(", ")}
 
-    Use the interpretation section as creative inspiration.
+Sounds:
+${interpretation.sounds.join(", ")}
 
-    Transform the imagery, symbols, sounds, textures, emotions, atmosphere, and palette
-    into a dream narrative.
+Textures:
+${interpretation.textures.join(", ")}
 
-    Do not list them directly.
+Motion:
+${interpretation.motion.join(", ")}
 
-    weave them naturally into the dream.
-    
-    Write a short surreal poetic dream narrative inspired by this weather.
-    Guidelines:
-- Keep it under 120 words
-- Use vivid sensory imagery
-- Make it surreal but emotionally calm
-- Avoid dialogue
-- Avoid explanations
-- Avoid clichés
-- Focus on atmosphere over plot
-- Use soft dream logic
-- Write in second person ("you")
-- Make the dream feel fleeting and mysterious
-- Avoid hyphens('-') in the text
-- Don't use Markdown formatting in the text
-- Use short paragraph breaks for readability.
-- less metaphor density.
-The dream should feel intimate and personal.
-Do not mention the weather directly.
-Do not explain symbolism.
-Do not make it scary unless storms are extreme.
+Emotions:
+${interpretation.emotions.join(", ")}
 
-Return Only valid JSON in this exact format:
+Pace: 
+${interpretation.pace.join(", ")}
+
+Creative Instructions:
+
+Treat the interpretation as a collection of creative ingredients rather than a checklist.
+Blend all of the above interpretations into a single cohesive dream.
+
+Do not list these elements directly.
+
+Instead, allow them to subtly shape:
+- the setting
+- the movement
+- the emotional tone
+- the sensory details
+- the symbolism
+
+Not every element must appear
+choose only that ones that naturally belong together.
+the dream must feel cohesive rather than generated from a list
+the setting should feel tangible before it becomes surreal
+dream logic may gradually transform the world, but transitions should feel effortless rather than random
+
+avoid obvious symbolism
+allow mystery to remain unexplained.
+resist the urge to resolve every image or symbol
+
+Guidelines:
+- Maximum 120 words
+- Write entirely in second person ("you")
+- Focus on atmosphere, emotion, and sensory experience rathar than plot
+- use vivid but restrained imagery
+- engage multiple senses naturally (sight, sound, touch, movement)
+- use metaphors sparingly
+- maintain soft dream logic 
+- let scenes flow naturally into one another
+- keep the tone intimate, calm and mysterious
+- avoid dialogue, exposition, cliches.
+- avoid horror unless weather strongly suggests it
+- avoid mentioning the weather directly.
+- do not explain symbolism
+- do not use markdown
+- do not use hyphens
+- use short paragraphs for readability
+- end with a quiet, lingering image rather than a dramatic conclusion
+
+Return only valid JSON.
 
 {
-  "title": "A short poetic title (2-5 words)",
-  "dream": "The complete dream"
+  "title": "2-5 word poetic title",
+  "dream": "Complete Dream"
 }
 
-Rules:
-- Title should be mysterious and literary.
-- Maximum 30 characters.
-- Literary and poetic.
-- Avoid Punctuation except apostrophes.
-- Avoid using "The" unless it sounds natural
-- Do not include markdown.
-- do not include explanations.
-- Return only JSON.
+Title Rules:
+- 2 to 5 words.
+- maximum 30 characters
+- literary
+- memorable
+- slightly mysterious
+- avoid punctuation except apostrophes
+- avoid using "The" unless it sounds natural
+- do not quote the title
+
+Dream Rules:
+- Plain text only
+- no markdown
+- no explanation
+- no notes
+- return only the JSON object
+- Do not wrap it in markdown
+- Do not add any introductory or concluding text
 `;
 
   const response = await fetch("https://ai.hackclub.com/proxy/v1/responses", {
@@ -121,7 +157,7 @@ Rules:
           ],
         },
       ],
-      max_output_tokens: 300,
+      max_output_tokens: 500,
     }),
   });
   const data = await response.json();

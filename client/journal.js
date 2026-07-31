@@ -31,3 +31,14 @@ export function getEntry(id) {
   const entries = getAllEntries();
   return entries.find((entry) => entry.id === id) || null;
 }
+
+export function deleteEntry(id) {
+  const entries = getAllEntries();
+
+  const index = entries.findIndex((entry) => entry.id === id);
+  if (index !== -1) {
+    entries.splice(index, 1);
+  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+  return entries;
+}

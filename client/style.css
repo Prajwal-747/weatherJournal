@@ -312,6 +312,27 @@ h3 {
   background: rgba(139, 58, 58, 0.8);
 }
 
+.delete-container {
+  position: absolute;
+  bottom: 24px;
+  right: 30px;
+}
+
+.delete-tab {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(139, 58, 58, 0.08);
+  border: 1px solid rgba(139, 58, 58, 0.25);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.delete-tab:hover {
+  background: rgba(139, 58, 58, 0.18);
+  transform: scale(1.05);
+}
+
 @keyframes textAppear {
   0% {
     opacity: 0;

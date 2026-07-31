@@ -1,4 +1,5 @@
 import {
+  deleteEntry,
   getAllEntries,
   getEntry,
   getTodayEntry,
@@ -13,6 +14,8 @@ const exportMenu = document.getElementById("export-menu");
 document.addEventListener("DOMContentLoaded", () => {
   setupDateStamp();
   loadDream();
+  const deleteBtn = document.getElementById("delete-btn");
+  deleteBtn.addEventListener("click", handleDelete);
 });
 
 exportButton.addEventListener("click", () => {
@@ -33,6 +36,42 @@ document.getElementById("export-pdf").addEventListener("click", () => {
   exportPDF(currentEntry);
   exportMenu.classList.remove("open");
 });
+
+function handleDelete() {
+  if (!currentEntry) return;
+
+  const confirmed = confirm(
+    `Delete "${currentEntry.title}"?\n\nThis action cannot be undone.`,
+  );
+  if (!confirmed) return;
+
+  const entries = deleteEntry(currentEntry.id);
+  displayHistory(entries);
+  if (entries.length === 0) {
+    currentEntry = null;
+
+    document.getElementById("current-date").textContent = "Awaiting Tomorrow";
+
+    document.getElementById("weather").innerHTML = `
+    <p class="weather-observation fade-in">
+      <em>No journal entries remain.</em>
+    </p>
+    `;
+
+    document.getElementById("dream").innerHTML = `
+    <div class="dream-paper fade-in">
+      <p><em>The journal rests empty.</em></p>
+    </div>
+    `;
+
+    return;
+  }
+  const newestEntry = [...entries].sort((a, b) => b.id.localeCompare(a.id))[0];
+  currentEntry = newestEntry;
+  setupDateStamp(newestEntry.date);
+  displayWeather(newestEntry.weather);
+  displayDream(newestEntry.title, newestEntry.dream);
+}
 
 function setupDateStamp(dateString) {
   const dateElement = document.getElementById("current-date");

@@ -215,6 +215,31 @@ h3 {
   z-index: 5;
 }
 
+.journal-header {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.today-btn {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--accent-red);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.today-btn:hover {
+  background: rgba(139, 58, 58, 0.08);
+  transform: rotate(180deg) scale(1.1);
+}
+
 .history-tab {
   position: absolute;
   right: 0;

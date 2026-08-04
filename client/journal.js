@@ -1,30 +1,27 @@
 const STORAGE_KEY = "dreamJournal";
 
+function saveEntries(entries) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+}
+
 export function getAllEntries() {
-  const data = localStorage.getItem(STORAGE_KEY);
-
-  if (!data) {
-    return [];
-  }
-
-  return JSON.parse(data);
+  return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
 }
 
 export function saveEntry(entry) {
   const entries = getAllEntries();
   const index = entries.findIndex((existing) => existing.id === entry.id);
-  if (index !== -1) {
+  if (index >= 0) {
     entries[index] = entry;
   } else {
     entries.push(entry);
   }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+  saveEntries(entries);
 }
 
 export function getTodayEntry() {
-  const entries = getAllEntries();
   const today = new Date().toISOString().split("T")[0];
-  return entries.find((entry) => entry.id === today) || null;
+  return getEntry(today);
 }
 
 export function getEntry(id) {
@@ -33,12 +30,7 @@ export function getEntry(id) {
 }
 
 export function deleteEntry(id) {
-  const entries = getAllEntries();
-
-  const index = entries.findIndex((entry) => entry.id === id);
-  if (index !== -1) {
-    entries.splice(index, 1);
-  }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+  const entries = getAllEntries().filter((entry) => entry.id !== id);
+  saveEntries(entries);
   return entries;
 }

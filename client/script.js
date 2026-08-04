@@ -16,26 +16,55 @@ document.addEventListener("DOMContentLoaded", () => {
   loadDream();
   const deleteBtn = document.getElementById("delete-btn");
   deleteBtn.addEventListener("click", handleDelete);
+  document.getElementById("today-btn").addEventListener("click", returnToToday);
 });
 
 exportButton.addEventListener("click", () => {
   exportMenu.classList.toggle("open");
 });
 
-document.getElementById("export-txt").addEventListener("click", () => {
-  exportText(currentEntry);
-  exportMenu.classList.remove("open");
+const exporters = {
+  "export-txt": exportText,
+  "export-md": exportMarkdown,
+  "export-pdf": exportPDF,
+};
+
+Object.entries(exporters).forEach(([id, exporter]) => {
+  document.getElementById(id).addEventListener("click", () => {
+    exporter(currentEntry);
+    exportMenu.classList.remove("open");
+  });
 });
 
-document.getElementById("export-md").addEventListener("click", () => {
-  exportMarkdown(currentEntry);
-  exportMenu.classList.remove("open");
-});
+function returnToToday() {
+  const todayEntry = getTodayEntry();
+  if (!todayEntry) {
+    loadDream();
+    return;
+  }
+  if (currentEntry?.id !== todayEntry.id) {
+    showEntry(todayEntry);
+    displayHistory(getAllEntries());
+    return;
+  }
+  deleteEntry(todayEntry.id);
+  currentEntry = null;
+  loadDream();
+}
 
-document.getElementById("export-pdf").addEventListener("click", () => {
-  exportPDF(currentEntry);
-  exportMenu.classList.remove("open");
-});
+function showEntry(entry) {
+  currentEntry = entry;
+  setupDateStamp(entry.date);
+  displayWeather(entry.weather);
+  displayDream(entry.title, entry.dream);
+}
+
+function showEmptyJournal() {
+  currentEntry = null;
+  document.getElementById("current-date").textContent = "Awaiting Tomorrow";
+  document.getElementById("weather").innerHTML = `...`;
+  document.getElementById("dream").innerHTML = `...`;
+}
 
 function handleDelete() {
   if (!currentEntry) return;
@@ -48,29 +77,11 @@ function handleDelete() {
   const entries = deleteEntry(currentEntry.id);
   displayHistory(entries);
   if (entries.length === 0) {
-    currentEntry = null;
-
-    document.getElementById("current-date").textContent = "Awaiting Tomorrow";
-
-    document.getElementById("weather").innerHTML = `
-    <p class="weather-observation fade-in">
-      <em>No journal entries remain.</em>
-    </p>
-    `;
-
-    document.getElementById("dream").innerHTML = `
-    <div class="dream-paper fade-in">
-      <p><em>The journal rests empty.</em></p>
-    </div>
-    `;
-
+    showEmptyJournal();
     return;
   }
   const newestEntry = [...entries].sort((a, b) => b.id.localeCompare(a.id))[0];
-  currentEntry = newestEntry;
-  setupDateStamp(newestEntry.date);
-  displayWeather(newestEntry.weather);
-  displayDream(newestEntry.title, newestEntry.dream);
+  showEntry(newestEntry);
 }
 
 function setupDateStamp(dateString) {
@@ -154,16 +165,6 @@ function displayDream(title, dream) {
   console.log(formattedDream);
 }
 
-function formatDate(dateString) {
-  const date = new Date(dateString);
-
-  return date.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
 function displayHistory(entries) {
   const historyContainer = document.getElementById("history");
 
@@ -181,7 +182,7 @@ function displayHistory(entries) {
         })
         .toUpperCase();
       return `
-    <div class="history-tab ${index === 0 ? "active" : ""}" data-id="${entry.id}" style="top:${index * 32}px">
+    <div class="history-tab ${entry.id === currentEntry?.id ? "active" : ""}" data-id="${entry.id}" style="top:${index * 32}px">
       ${day} ${month}
     </div>
     `;
@@ -192,15 +193,12 @@ function displayHistory(entries) {
       const id = item.dataset.id;
       const entry = getEntry(id);
       if (!entry) return;
-      currentEntry = entry;
 
       historyContainer.querySelectorAll(".history-tab").forEach((tab) => {
         tab.classList.remove("active");
       });
       item.classList.add("active");
-      displayWeather(entry.weather);
-      displayDream(entry.title, entry.dream);
-      setupDateStamp(entry.date);
+      showEntry(entry);
     });
   });
 }
@@ -211,9 +209,8 @@ async function loadDream() {
   displayHistory(getAllEntries());
 
   if (todayEntry) {
-    currentEntry = todayEntry;
-    displayWeather(todayEntry.weather);
-    displayDream(todayEntry.title, todayEntry.dream);
+    showEntry(todayEntry);
+    displayHistory(getAllEntries());
     return;
   }
 
@@ -228,8 +225,10 @@ async function loadDream() {
 
   navigator.geolocation.getCurrentPosition(
     async (position) => {
-      const lat = position.coords.latitude;
-      const long = position.coords.longitude;
+      // const lat = position.coords.latitude;
+      // const long = position.coords.longitude;
+      const lat = -45.0312;
+      const long = 168.6626;
       console.log("Got geolocation:", lat, long);
 
       try {
@@ -237,8 +236,6 @@ async function loadDream() {
           `/api/weather?lat=${lat}&long=${long}`,
         );
         const weatherData = await weatherResponse.json();
-
-        displayWeather(weatherData);
 
         const dreamResponse = await fetch(`/api/dream?lat=${lat}&long=${long}`);
         if (!dreamResponse.ok) throw new Error("Dream API Failed");
@@ -254,15 +251,13 @@ async function loadDream() {
           dream: dreamdata.dream,
         };
 
-        currentEntry = newEntry;
+        showEntry(newEntry);
 
         saveEntry(newEntry);
 
         displayHistory(getAllEntries());
 
         clearInterval(loadingInterval);
-
-        displayDream(dreamdata.title, dreamdata.dream);
       } catch (error) {
         const dreamContainer = document.getElementById("dream");
         console.error("The pages remain blank: ", error);
@@ -272,6 +267,7 @@ async function loadDream() {
     },
     (error) => {
       const weatherContainer = document.getElementById("weather");
+      const dreamContainer = document.getElementById("dream");
       console.error("Cartography error: ", error);
       clearInterval(loadingInterval);
       weatherContainer.innerHTML = `<p class="weather-observation fade-in">Location unknown to the local cartographers.</p>`;

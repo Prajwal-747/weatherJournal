@@ -1,3 +1,5 @@
+import { parse } from "dotenv";
+
 async function getWeather(lat, long) {
   console.log(lat, long);
 
@@ -37,9 +39,55 @@ async function getWeather(lat, long) {
     moonphase: data.forecast.forecastday[0].astro.moon_phase,
   };
 
+  weatherInfo.timeOfDay = getTimeOfDay(weatherInfo.dateTime);
+  weatherInfo.sunPosition = getSunPosition(
+    weatherInfo.dateTime,
+    weatherInfo.sunrise,
+    weatherInfo.sunset,
+  );
+
   console.log(weatherInfo);
 
   return weatherInfo;
+}
+
+function getTimeOfDay(dateTime) {
+  const hour = new Date(dateTime).getHours();
+
+  if (hour >= 5 && hour < 7) return "dawn";
+  if (hour >= 7 && hour < 12) return "morning";
+  if (hour >= 12 && hour < 17) return "afternoon";
+  if (hour >= 17 && hour < 19) return "evening";
+  if (hour >= 19 && hour < 20) return "twilight";
+  if (hour >= 20 && hour < 24) return "night";
+  return "midnight";
+}
+
+function getSunPosition(dateTime, sunrise, sunset) {
+  const current = parseTime(dateTime);
+  const sunriseTime = parseTime12Hour(sunrise);
+  const sunsetTime = parseTime12Hour(sunset);
+
+  if (current < sunriseTime) return "before_sunrise";
+  if (current < sunriseTime + 30) return "sunrise";
+  if (current < sunsetTime) return "day";
+  if (current < sunsetTime + 30) return "sunset";
+  return "after_sunset";
+}
+
+function parseTime(dateTime) {
+  const date = new Date(dateTime);
+  return date.getHours() * 60 + date.getMinutes();
+}
+
+function parseTime12Hour(time) {
+  const [clock, period] = time.split(" ");
+  let [hour, minute] = clock.split(":").map(Number);
+
+  if (period === "PM" && hour !== 12) hour += 12;
+  if (period === "AM" && hour === 12) hour = 0;
+
+  return hour * 60 + minute;
 }
 
 export default getWeather;

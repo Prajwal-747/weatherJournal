@@ -8,20 +8,12 @@ Date,Time: ${weatherInfo.dateTime}
 Temperature: ${weatherInfo.temperature}°C
 Wind: ${weatherInfo.windSpeed} kph, ${weatherInfo.windDirection}
 Humidity: ${weatherInfo.humidity}%
-Cloud Cover: ${weatherInfo.cloud}%
-feelslike_c: ${weatherInfo.feelslike}°C
 visibility: ${weatherInfo.vis_km} km
 Chance of Rain: ${weatherInfo.chance_of_rain}%
-Chance of Snow: ${weatherInfo.chance_of_snow}%
 Will it Rain: ${weatherInfo.will_it_rain ? "Yes" : "No"}
 Will it Snow: ${weatherInfo.will_it_snow ? "Yes" : "No"}
-Max Temperature: ${weatherInfo.maxtemp}°C
-Min Temperature: ${weatherInfo.mintemp}°C
-avg Temperature: ${weatherInfo.avgtemp}°C
 Sunrise: ${weatherInfo.sunrise}
 Sunset: ${weatherInfo.sunset}
-Moonrise: ${weatherInfo.moonrise}
-Moonset: ${weatherInfo.moonset}
 Moon Phase: ${weatherInfo.moonphase}
 
 Interpretation:
@@ -79,7 +71,8 @@ Instead, allow them to subtly shape:
 - the sensory details
 - the symbolism
 
-Not every element must appear
+Do not attempt to incorporate every interpretation trait.
+Select only the strongest combinations that naturally reinforce one another
 choose only that ones that naturally belong together.
 the dream must feel cohesive rather than generated from a list
 the setting should feel tangible before it becomes surreal

@@ -225,10 +225,8 @@ async function loadDream() {
 
   navigator.geolocation.getCurrentPosition(
     async (position) => {
-      // const lat = position.coords.latitude;
-      // const long = position.coords.longitude;
-      const lat = -45.0312;
-      const long = 168.6626;
+      const lat = position.coords.latitude;
+      const long = position.coords.longitude;
       console.log("Got geolocation:", lat, long);
 
       try {

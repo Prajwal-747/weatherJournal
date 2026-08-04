@@ -3,14 +3,22 @@ import dotenv from "dotenv";
 import getWeather from "./weather.js";
 import generateDream from "./dreamGenerator.js";
 import interpretWeather from "./weatherInterpreter.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
 app.use(express.json());
 
-app.use(express.static("client"));
+app.use(express.static(path.join(__dirname, "client")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "index.html"));
+});
 
 app.get("/api/dream", async (req, res) => {
   const { lat, long } = req.query;
@@ -31,6 +39,4 @@ app.get("/api/weather", async (req, res) => {
   res.json(weather);
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+export default app;

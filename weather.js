@@ -4,7 +4,7 @@ async function getWeather(lat, long) {
   console.log(lat, long);
 
   const response = await fetch(
-    `http://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KEY}&q=${lat},${long}&days=1&aqi=no&alerts=no`,
+    `https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KEY}&q=${lat},${long}&days=1&aqi=no&alerts=no`,
   );
 
   console.log(response);

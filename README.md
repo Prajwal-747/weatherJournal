@@ -7,16 +7,17 @@ Each dream is influenced by a custom interpretation engine before being generate
 
 ### Dream Journal
 
-![Jan 14](client\assets\jan-14.png)
-![April 21](client\assets\apr-21.png)
+![Jan 14](client/assets/jan-14.png)
+![April 21](client/assets/apr-21.png)
+
 
 ### Export Options
 
-![Export Menu](client\assets\export-menu.png)
+![Export Menu](client/assets/export-menu.png)
 
 ### PDF Export
 
-![PDF Export](client\assets\export-PDF.png)
+![PDF Export](client/assets/export-PDF.png)
 
 # Features
 
